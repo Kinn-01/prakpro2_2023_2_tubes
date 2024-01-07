@@ -114,7 +114,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 727, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,26 +146,26 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonHomeActionPerformed
 
-    private void buttonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAboutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonAboutActionPerformed
-
-    private void buttonKontakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonKontakActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonKontakActionPerformed
-
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
         loginFrame = new LoginFrame();
         mainFrame = new MainFrame();
         loginFrame.setVisible(true);
         SwingUtilities.invokeLater(() -> {
-        mainFrame.dispose();
+        this.dispose();
     });
 //        mainFrame.setVisible(false);
         
         
         
     }//GEN-LAST:event_buttonLoginActionPerformed
+
+    private void buttonKontakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonKontakActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonKontakActionPerformed
+
+    private void buttonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAboutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAboutActionPerformed
 
     /**
      * @param args the command line arguments

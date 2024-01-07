@@ -5,6 +5,12 @@
 package id.ac.unpas.ecycle.registrasi;
 import id.ac.unpas.ecycle.login.LoginFrame;
 import id.ac.unpas.ecycle.main.MainFrame;
+import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.util.*;
+import id.ac.unpas.ecycle.login.Login;
+import id.ac.unpas.ecycle.dao.RegistrasiDao;
+import id.ac.unpas.ecycle.dao.LoginDao;
 /**
  *
  * @author Gilman Arief
@@ -14,12 +20,21 @@ public class RegisterFrame extends javax.swing.JFrame {
     private MainFrame mainFrame;
     private LoginFrame loginFrame;
     private RegisterFrame registerFrame;
+    private RegistrasiDao registrasiDao;
+    private LoginDao loginDao;
     /**
      * Creates new form LoginFrame
      */
     public RegisterFrame() {
         initComponents();
     }
+    
+    public void showAlertSuccess(String message) {
+        // Tampilkan message dialog pada komponen dari parameter 1 dan pesan pada parameter 2 dengan title pada parameter 3 dan jenis pesan pada parameter 4
+        JOptionPane.showMessageDialog(RegisterFrame.this, "Registrasi Berhasil " + message, "Perhatian",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,10 +54,17 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         usernameTextfield = new javax.swing.JTextField();
         emailTextfield = new javax.swing.JTextField();
-        passwordTextfield = new javax.swing.JTextField();
+        alamatTextfield = new javax.swing.JTextField();
         buttonRegister = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         buttonLogin = new javax.swing.JButton();
+        tglLahirTextfield = new javax.swing.JTextField();
+        passwordTextfield = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,13 +93,13 @@ public class RegisterFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(188, 188, 188)
+                .addGap(211, 211, 211)
                 .addComponent(buttonHome)
                 .addGap(27, 27, 27)
                 .addComponent(jButton2)
                 .addGap(26, 26, 26)
                 .addComponent(jButton3)
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addContainerGap(263, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,23 +118,30 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel2.setText("Register Form");
 
         usernameTextfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        usernameTextfield.setText("Username");
+        usernameTextfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameTextfieldActionPerformed(evt);
+            }
+        });
 
         emailTextfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        emailTextfield.setText("Email");
         emailTextfield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailTextfieldActionPerformed(evt);
             }
         });
 
-        passwordTextfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        passwordTextfield.setText("Password");
+        alamatTextfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         buttonRegister.setBackground(new java.awt.Color(0, 51, 255));
         buttonRegister.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         buttonRegister.setForeground(new java.awt.Color(255, 255, 255));
         buttonRegister.setText("Register");
+        buttonRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegisterActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Already Registered ?");
 
@@ -123,6 +152,29 @@ public class RegisterFrame extends javax.swing.JFrame {
             }
         });
 
+        tglLahirTextfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        passwordTextfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel4.setText("Nama : ");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel5.setText("Email : ");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel6.setText("Alamat : ");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel7.setText("Tanggal Lahir :");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel8.setText("Password :");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -131,47 +183,67 @@ public class RegisterFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(305, 305, 305)
+                        .addGap(304, 304, 304)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(277, 277, 277)
-                        .addComponent(usernameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(277, 277, 277)
-                        .addComponent(emailTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(passwordTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(usernameTextfield, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(emailTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(alamatTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(tglLahirTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(349, 349, 349)
                         .addComponent(buttonRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(277, 277, 277)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(buttonLogin)))))
+                        .addGap(291, 291, 291)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLogin)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(usernameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel4)
+                .addGap(4, 4, 4)
+                .addComponent(usernameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(emailTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passwordTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(alamatTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tglLahirTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(buttonLogin))
-                .addGap(0, 151, Short.MAX_VALUE))
+                .addGap(43, 43, 43))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,9 +256,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -200,7 +270,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         loginFrame = new LoginFrame();
         registerFrame = new RegisterFrame();
         loginFrame.setVisible(true);
-        registerFrame.dispose();
+        this.dispose();
 //        registerFrame.setVisible(false);
         
     }//GEN-LAST:event_buttonLoginActionPerformed
@@ -209,8 +279,46 @@ public class RegisterFrame extends javax.swing.JFrame {
         mainFrame = new MainFrame();
         registerFrame = new RegisterFrame();
         mainFrame.setVisible(true);
-        registerFrame.dispose();
+        this.dispose();
     }//GEN-LAST:event_buttonHomeActionPerformed
+
+    private void buttonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterActionPerformed
+        
+        RegistrasiDao registrasiDao = new RegistrasiDao();
+        loginFrame = new LoginFrame();
+        registerFrame = new RegisterFrame();
+        
+        String nama = this.usernameTextfield.getText();
+        String email = this.emailTextfield.getText();
+        String alamat = this.alamatTextfield.getText();
+        String tanggal_lahir = this.tglLahirTextfield.getText();
+        String password = this.passwordTextfield.getText();
+       
+        
+
+        Registrasi registrasi = new Registrasi();
+        
+        
+        
+        registrasi.setNama(nama);
+        registrasi.setEmail(email);
+        registrasi.setAlamat(alamat);
+        registrasi.setTanggal_lahir(tanggal_lahir);
+        registrasi.setPassword(password);
+        
+        
+
+        registrasiDao.insert(registrasi);
+        
+        
+        loginFrame.setVisible(true);
+        this.registerFrame.showAlertSuccess(", Silahkan Login");
+        this.dispose();
+    }//GEN-LAST:event_buttonRegisterActionPerformed
+
+    private void usernameTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameTextfieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,6 +357,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField alamatTextfield;
     private javax.swing.JButton buttonHome;
     private javax.swing.JButton buttonLogin;
     private javax.swing.JButton buttonRegister;
@@ -258,9 +367,15 @@ public class RegisterFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField passwordTextfield;
+    private javax.swing.JTextField tglLahirTextfield;
     private javax.swing.JTextField usernameTextfield;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,12 +18,12 @@ public class Login {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNama() {
+        return nama;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 
     public String getPassword() {
@@ -34,6 +34,6 @@ public class Login {
         this.password = password;
     }
     private int id;
-    private String username;
+    private String nama;
     private String password;
 }
