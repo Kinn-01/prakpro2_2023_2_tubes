@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class MySqlConnection {
     // Informasi koneksi database (URL, username, dan password)
-    private final String DB_URL = "jdbc:mysql://localhost/registrasi_masyarakat";
+    private final String DB_URL = "jdbc:mysql://localhost/ecycle";
     private final String DB_USER = "root";
     private final String DB_PASS = "";
     
