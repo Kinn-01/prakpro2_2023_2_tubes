@@ -48,35 +48,182 @@ public class RegistrasiDao {
         return result;
     }
     
+    public int update(Registrasi registrasi) {
+        int result = -1;
+
+        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "update masyarakat set nama = ?, alamat = ?, tanggal_lahir = ? where id = ?");
+
+            statement.setString(1, registrasi.getNama());
+            statement.setString(2, registrasi.getAlamat());
+            statement.setString(3, registrasi.getTanggal_lahir());
+            statement.setInt(4, registrasi.getId());
+
+            result = statement.executeUpdate();
+
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    
     public boolean show(Registrasi registrasi) {
     // result adalah variabel yang digunakan untuk menyimpan nilai apakah eksekusi query berhasil dilakukan atau tidak
-    boolean result = false;
+        boolean result = false;
 
     // try with resources digunakan untuk mengambil koneksi dari database
-    try (Connection connection = MySqlConnection.getInstance().getConnection()) {
-        // PreparedStatement digunakan untuk menyiapkan query yang akan dijalankan
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM masyarakat WHERE nama=? AND password=?");
+        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
+            // PreparedStatement digunakan untuk menyiapkan query yang akan dijalankan
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM masyarakat WHERE nama=? AND password=?");
 
-        // statement.setString digunakan untuk mengisi parameter query dengan nilai dari parameter jenisMember
-        statement.setString(1, registrasi.getNama());
-        statement.setString(2, registrasi.getPassword());
+            // statement.setString digunakan untuk mengisi parameter query dengan nilai dari parameter jenisMember
+            statement.setString(1, registrasi.getNama());
+            statement.setString(2, registrasi.getPassword());
 
-        // ResultSet digunakan untuk menyimpan hasil query SELECT
-        ResultSet resultSet = statement.executeQuery();
+            // ResultSet digunakan untuk menyimpan hasil query SELECT
+            ResultSet resultSet = statement.executeQuery();
 
-        // Jika resultSet memiliki hasil (baris data), set result ke true
-        if (resultSet.next()) {
-            result = true;
+            // Jika resultSet memiliki hasil (baris data), set result ke true
+            if (resultSet.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            // jika terjadi error, maka akan ditampilkan errornya
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        // jika terjadi error, maka akan ditampilkan errornya
-        e.printStackTrace();
+        // mengembalikan nilai result
+        return result;
+    }
+    
+    public int updatePassword(Registrasi registrasi) {
+        // Variable result untuk menyimpan nilai dari eksekusi query apakah berhasil atau tidak
+        int result = -1;
+
+        // Try with resources untuk membuat koneksi ke database
+        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
+            // Membuat PreparedStatement untuk mengubah data di database
+            PreparedStatement statement = connection.prepareStatement(
+                    "update masyarakat set password = ? where nama = ?");
+
+            // Set nilai dari parameter yang ada di query
+            statement.setString(1, registrasi.getPassword());
+            statement.setString(2, registrasi.getNama());
+
+            // Eksekusi query
+            result = statement.executeUpdate();
+
+            // Print data yang diubah di database
+            System.out.println("Reset Password : " + registrasi.getNama() + " " + registrasi.getPassword());
+
+        } catch (SQLException e) {
+            // Jika terjadi error, tampilkan error
+            e.printStackTrace();
+        }
+
+        // Kembalikan nilai result
+        return result;
+    }
+    
+    public int delete(Registrasi registrasi) {
+        int result = -1;
+
+        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("delete from masyarakat where id = ?");
+
+            statement.setInt(1, registrasi.getId());
+
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    
+    public List<Registrasi> findAll() {
+        List<Registrasi> list = new ArrayList<>();
+
+        try (
+                Connection connection = MySqlConnection.getInstance().getConnection();
+                Statement statement = connection.createStatement();) {
+
+            try (ResultSet resultSet = statement.executeQuery("select * from masyarakat");) {
+
+                while (resultSet.next()) {
+                    Registrasi registrasi = new Registrasi();
+
+                    registrasi.setNama(resultSet.getString("nama"));
+                    registrasi.setEmail(resultSet.getString("email"));
+                    registrasi.setAlamat(resultSet.getString("alamat"));
+                    registrasi.setTanggal_lahir(resultSet.getString("tanggal_lahir"));
+
+                    list.add(registrasi);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // mengembalikan nilai list
+        return list;
+    }
+    
+    public Registrasi select(String column, String value) {
+        Registrasi registrasi = new Registrasi();
+
+        try (
+                Connection connection = MySqlConnection.getInstance().getConnection();
+                Statement statement = connection.createStatement();) {
+            try (ResultSet resultSet = statement
+                    .executeQuery("select * from masyarakat where " + column + " = '" + value + "'");) {
+                while (resultSet.next()) {
+                    registrasi.setId(resultSet.getInt("id")); // id
+                    registrasi.setNama(resultSet.getString("nama")); // nama
+                    registrasi.setAlamat(resultSet.getString("alamat")); // alamat
+                    registrasi.setTanggal_lahir(resultSet.getString("tanggal_lahir")); // no_telepon
+                    
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return registrasi;
     }
 
-    // mengembalikan nilai result
-    return result;
-}
-
+//    public Registrasi select(String column, String value) {
+//        Registrasi registrasi = new Registrasi();
+//
+//        try (
+//                Connection connection = MySqlConnection.getInstance().getConnection();
+//                Statement statement = connection.createStatement();) {
+//            try (ResultSet resultSet = statement
+//                    .executeQuery("select * from masyarakat where " + column + " = '" + value + "'");) {
+//                while (resultSet.next()) {
+//                    registrasi.setId(resultSet.getInt("id")); // id
+//                    registrasi.setNama(resultSet.getString("nama")); // nama
+//                    registrasi.setEmail(resultSet.getString("email"));
+//                    registrasi.setAlamat(resultSet.getString("alamat")); // alamat
+//                    registrasi.setTanggal_lahir(resultSet.getString("tangal_lahir")); // no_telepon
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return registrasi;
+//    }
+    
+    
     
     
 }

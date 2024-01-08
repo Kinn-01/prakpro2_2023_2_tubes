@@ -8,6 +8,8 @@ import id.ac.unpas.ecycle.dao.RegistrasiDao;
 import id.ac.unpas.ecycle.registrasi.RegisterFrame;
 import id.ac.unpas.ecycle.main.MainFrame;
 import id.ac.unpas.ecycle.registrasi.Registrasi;
+import id.ac.unpas.ecycle.ubahProfil.UbahProfileFrame;
+import id.ac.unpas.ecycle.ubahPassword.UbahPasswordFrame;
 import javax.swing.JOptionPane;
 import javax.swing.*;
 import java.util.*;
@@ -20,6 +22,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private LoginFrame loginFrame;
     private RegisterFrame registerFrame;
     private MainFrame mainFrame;
+    private UbahProfileFrame ubahProfileFrame;
+    private UbahPasswordFrame ubahPasswordFrame;
     /**
      * Creates new form LoginFrame
      */
@@ -31,6 +35,12 @@ public class LoginFrame extends javax.swing.JFrame {
         // Tampilkan message dialog pada komponen dari parameter 1 dan pesan pada parameter 2 dengan title pada parameter 3 dan jenis pesan pada parameter 4
         JOptionPane.showMessageDialog(LoginFrame.this, "Login Gagal " + message, "Perhatian",
                 JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void showAlertSuccess(String message) {
+        // Tampilkan message dialog pada komponen dari parameter 1 dan pesan pada parameter 2 dengan title pada parameter 3 dan jenis pesan pada parameter 4
+        JOptionPane.showMessageDialog(LoginFrame.this, "Hallo " + message, "Perhatian",
+                JOptionPane.INFORMATION_MESSAGE);
     }
     
 
@@ -57,6 +67,7 @@ public class LoginFrame extends javax.swing.JFrame {
         buttonRegister = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        lupaPassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,6 +159,13 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("Password : ");
 
+        lupaPassword.setText("Forgot Password ?");
+        lupaPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lupaPasswordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -158,21 +176,24 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addGap(323, 323, 323)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(356, 356, 356)
-                        .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(281, 281, 281)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(loginPassTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loginNameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(buttonRegister))
-                            .addComponent(loginPassTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginNameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))))
-                .addContainerGap(309, Short.MAX_VALUE))
+                                .addComponent(buttonRegister))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(352, 352, 352)
+                        .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(335, 335, 335)
+                        .addComponent(lupaPassword)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,13 +208,15 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginPassTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lupaPassword)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(buttonRegister))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -218,6 +241,8 @@ public class LoginFrame extends javax.swing.JFrame {
         RegistrasiDao registrasiDao = new RegistrasiDao();
         loginFrame = new LoginFrame();
         mainFrame = new MainFrame();
+        ubahProfileFrame = new UbahProfileFrame();
+        
         
         String nama = this.loginNameTextfield.getText();
         String password = this.loginPassTextfield.getText();
@@ -230,7 +255,9 @@ public class LoginFrame extends javax.swing.JFrame {
         registrasiDao.show(registrasi);
         
         if(registrasiDao.show(registrasi) == true) {
-           mainFrame.setVisible(true);
+           ubahProfileFrame.setVisible(true);
+           this.loginFrame.showAlertSuccess(", Selamat Datang Kembali");
+//           ubahProfileFrame.tampilData();
            this.dispose();
         } else {
             this.loginFrame.showAlertFailed(", Periksa Kembali Password Anda!!!");
@@ -255,6 +282,13 @@ public class LoginFrame extends javax.swing.JFrame {
     private void loginNameTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginNameTextfieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_loginNameTextfieldActionPerformed
+
+    private void lupaPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lupaPasswordActionPerformed
+        ubahPasswordFrame = new UbahPasswordFrame();
+        
+        ubahPasswordFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lupaPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,5 +340,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField loginNameTextfield;
     private javax.swing.JTextField loginPassTextfield;
+    private javax.swing.JButton lupaPassword;
     // End of variables declaration//GEN-END:variables
+
+    
 }
