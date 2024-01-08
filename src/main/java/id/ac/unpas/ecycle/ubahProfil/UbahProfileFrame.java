@@ -4,19 +4,54 @@
  */
 package id.ac.unpas.ecycle.ubahProfil;
 
+import id.ac.unpas.ecycle.dao.RegistrasiDao;
+import id.ac.unpas.ecycle.db.MySqlConnection;
+import id.ac.unpas.ecycle.login.LoginFrame;
+import id.ac.unpas.ecycle.main.MainFrame;
+import id.ac.unpas.ecycle.registrasi.Registrasi;
+import id.ac.unpas.ecycle.ubahProfil.ubahProfileModelTable;
+import java.io.File;
+
+
+import java.util.*;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+
+
 /**
  *
  * @author adawiyahajr
  */
 public class UbahProfileFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ubahProfil1
-     */
+    private List<Registrasi> registrasiList;
+    private RegistrasiDao registrasiDao;
+    private MainFrame mainFrame;
+    private UbahProfileFrame ubahProfileFrame;
+    private ubahProfileModelTable ubahProfileModelTable;
+    private Registrasi registrasiUbah;
+    
+    
+    
+    
     public UbahProfileFrame() {
+        this.registrasiDao = new RegistrasiDao();
+        this.registrasiDao = registrasiDao;
+        this.registrasiList = this.registrasiDao.findAll();
+        this.ubahProfileModelTable = new ubahProfileModelTable(registrasiList);
         initComponents();
     }
+    
+    
 
+        
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,25 +62,30 @@ public class UbahProfileFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textfieldNama = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        textfieldAlamat = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        textfieldTglLahir = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        buttonHapus = new javax.swing.JButton();
+        buttonUbah = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        profileTable = new javax.swing.JTable();
+        tbUbahProfile = new javax.swing.JTable();
+        buttonSimpanUbah = new javax.swing.JButton();
+        buttonPrint = new javax.swing.JButton();
+        buttonPreview = new javax.swing.JButton();
+        buttonPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -55,34 +95,25 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         jLabel1.setText("Ubah Profil");
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        jButton1.setBackground(java.awt.Color.blue);
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Simpan");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         jPanel1.setBackground(java.awt.Color.lightGray);
 
         jLabel2.setText("Nama :");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textfieldNama.setColumns(20);
+        textfieldNama.setRows(5);
+        jScrollPane1.setViewportView(textfieldNama);
 
         jLabel3.setText("Alamat :");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        textfieldAlamat.setColumns(20);
+        textfieldAlamat.setRows(5);
+        jScrollPane2.setViewportView(textfieldAlamat);
 
         jLabel4.setText("Tanggal lahir :");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        textfieldTglLahir.setColumns(20);
+        textfieldTglLahir.setRows(5);
+        jScrollPane3.setViewportView(textfieldTglLahir);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,18 +198,67 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         jLabel6.setMinimumSize(new java.awt.Dimension(2053, 2048));
         jLabel6.setPreferredSize(new java.awt.Dimension(2053, 2048));
 
-        profileTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Nama", "Alamat", "Tanggal Lahir"
+        buttonHapus.setBackground(new java.awt.Color(0, 0, 255));
+        buttonHapus.setForeground(new java.awt.Color(255, 255, 255));
+        buttonHapus.setText("Hapus");
+        buttonHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonHapusActionPerformed(evt);
             }
-        ));
-        jScrollPane4.setViewportView(profileTable);
+        });
+
+        buttonUbah.setBackground(new java.awt.Color(0, 0, 255));
+        buttonUbah.setForeground(new java.awt.Color(255, 255, 255));
+        buttonUbah.setText("Ubah");
+        buttonUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonUbahActionPerformed(evt);
+            }
+        });
+
+        tbUbahProfile.setModel(ubahProfileModelTable);
+        tbUbahProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbUbahProfileMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tbUbahProfile);
+
+        buttonSimpanUbah.setBackground(new java.awt.Color(0, 0, 255));
+        buttonSimpanUbah.setForeground(new java.awt.Color(255, 255, 255));
+        buttonSimpanUbah.setText("Simpan Ubah");
+        buttonSimpanUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSimpanUbahActionPerformed(evt);
+            }
+        });
+
+        buttonPrint.setBackground(new java.awt.Color(0, 0, 255));
+        buttonPrint.setForeground(new java.awt.Color(255, 255, 255));
+        buttonPrint.setText("Print");
+        buttonPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPrintActionPerformed(evt);
+            }
+        });
+
+        buttonPreview.setBackground(new java.awt.Color(0, 0, 255));
+        buttonPreview.setForeground(new java.awt.Color(255, 255, 255));
+        buttonPreview.setText("Preview");
+        buttonPreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPreviewActionPerformed(evt);
+            }
+        });
+
+        buttonPDF.setBackground(new java.awt.Color(0, 0, 255));
+        buttonPDF.setForeground(new java.awt.Color(255, 255, 255));
+        buttonPDF.setText("Export to PDF");
+        buttonPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPDFActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,14 +271,25 @@ public class UbahProfileFrame extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(56, 56, 56)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(140, 140, 140)
+                                .addComponent(buttonHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonSimpanUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonPreview)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonPDF)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -220,52 +311,204 @@ public class UbahProfileFrame extends javax.swing.JFrame {
                         .addGap(59, 59, 59)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonHapus)
+                    .addComponent(buttonUbah)
+                    .addComponent(buttonSimpanUbah)
+                    .addComponent(buttonPrint)
+                    .addComponent(buttonPreview)
+                    .addComponent(buttonPDF))
+                .addGap(51, 51, 51)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void buttonHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHapusActionPerformed
+        RegistrasiDao registrasiDao = new RegistrasiDao();
+        
+        ubahProfileFrame = new UbahProfileFrame();
+        
+        
+//        String nama = this.loginNameTextfield.getText();
+//        String password = this.loginPassTextfield.getText();
+// 
+        Registrasi registrasi = new Registrasi();
+//               
+//        registrasi.setNama(nama);
+//        registrasi.setPassword(password);
+        
+        registrasiDao.delete(registrasi);
+        
+//        if(registrasiDao.show(registrasi) == true) {
+//           ubahProfileFrame.setVisible(true);
+//           this.dispose();
+//        } else {
+//            
+//        }
+    }//GEN-LAST:event_buttonHapusActionPerformed
+
+    private void buttonUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUbahActionPerformed
+        // TODO add your handling code here:
+        int row = tbUbahProfile.getSelectedRow();
+        int column = tbUbahProfile.getSelectedColumn();
+
+        if (row == -1 || column == -1) {
+            return;
+        }
+
+        String dataUbah = (String) tbUbahProfile.getModel().getValueAt(row, column);
+
+        int id = -1;
+        String col = "";
+
+        switch (column) {
+            case 0:
+                col = "nama";
+                break;
+            case 1:
+                col = "alamat";
+                break;
+            case 2:
+                col = "tangal_lahir";
+                break;
+            default:
+                System.out.println("Kolom tidak ditemukan");
+                break;
+        }
+        id = this.registrasiDao.select(col, dataUbah).getId();
+
+        this.textfieldNama.setText(this.registrasiDao.select(col, dataUbah).getNama());
+        this.textfieldAlamat.setText(this.registrasiDao.select(col, dataUbah).getAlamat());
+        this.textfieldTglLahir.setText(this.registrasiDao.select(col, dataUbah).getTanggal_lahir());
+
+        
+
+        Registrasi registrasiUbah = new Registrasi();
+        registrasiUbah.setId(id);
+    }//GEN-LAST:event_buttonUbahActionPerformed
+
+    private void tbUbahProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUbahProfileMouseClicked
+        
+    }//GEN-LAST:event_tbUbahProfileMouseClicked
+
+    private void buttonSimpanUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSimpanUbahActionPerformed
+        String nama = this.textfieldNama.getText();
+        String alamat = this.textfieldAlamat.getText();
+        String tanggal_lahir = this.textfieldTglLahir.getText();
+        
+         this.registrasiUbah = new Registrasi();
+
+        Registrasi registrasi = new Registrasi();
+        registrasi.setId(registrasiUbah.getId());
+        registrasi.setNama(nama);
+        registrasi.setAlamat(alamat);
+        registrasi.setTanggal_lahir(tanggal_lahir);
+        
+
+        this.registrasiDao.update(registrasi);
+        this.update(registrasi);
+    }//GEN-LAST:event_buttonSimpanUbahActionPerformed
+
+    private void buttonPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPrintActionPerformed
+        try{
+            //Mendapatkan path direktori laporan
+            String reportPath = System.getProperty("user.dir") + File.separator + "report";
+            
+            //Mendapatkan path lengkap untuk file laporan (MemberReport.jrxml)
+            String path = reportPath + File.separator + "dataMasyarakat.jrxml";
+            
+            //mengompilasi file laporan menjadi objek jasperReport
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+            
+            //Membuat objek parameter untuk laporan
+            Map<String,Object> parameters = new HashMap<>();
+            
+            //Mengisi laporan menggunakan data dari koneksi database
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
+                    parameters, MySqlConnection.getInstance().getConnection());
+            
+            //Mencetak Laporan ke printer
+            JasperPrintManager.printReport(jasperPrint, true);
+        } catch (Exception e) {
+            // menangani exception dengan mencetak stackTrace
+            e.printStackTrace();
+        } 
+    }//GEN-LAST:event_buttonPrintActionPerformed
+
+    private void buttonPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPreviewActionPerformed
+        try{
+            //Mendapatkan path direktori laporan
+            String reportPath = System.getProperty("user.dir") + File.separator + "report";
+            
+            //Mendapatkan path lengkap untuk file laporan (MemberReport.jrxml)
+            String path = reportPath + File.separator + "dataMasyarakat.jrxml";
+            
+            //mengompilasi file laporan menjadi objek jasperReport
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+            
+            //Membuat objek parameter untuk laporan
+            Map<String,Object> parameters = new HashMap<>();
+            
+            //Mengisi laporan menggunakan data dari koneksi database
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
+                    parameters, MySqlConnection.getInstance().getConnection());
+            
+            // Menampilkan laporan dalam jendela pertinjau
+            JasperViewer.viewReport(jasperPrint);
+        } catch (Exception e) {
+            // menangani exception dengan mencetak stackTrace
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_buttonPreviewActionPerformed
+
+    private void buttonPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPDFActionPerformed
+        try{
+            //Mendapatkan path direktori laporan
+            String reportPath = System.getProperty("user.dir") + File.separator + "report";
+            
+            //Mendapatkan path lengkap untuk file laporan (MemberReport.jrxml)
+            String path = reportPath + File.separator + "dataMasyarakat.jrxml";
+            
+            //mengompilasi file laporan menjadi objek jasperReport
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+            
+            //Membuat objek parameter untuk laporan
+            Map<String,Object> parameters = new HashMap<>();
+            
+            //Mengisi laporan menggunakan data dari koneksi database
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
+                    parameters, MySqlConnection.getInstance().getConnection());
+            
+            // membuat direktori jika belum ada
+            File outDir = new File(reportPath);
+            outDir.mkdirs();
+            //Mencetak laporan ke PDF
+            JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + File.separator + "dataMasyarakat.pdf");
+            
+            //Menampilkan pesan dialog bahwa proses export selesai
+            JOptionPane.showMessageDialog(this, "Export Selesai");
+        } catch (Exception e) {
+            //menangani exception dengan mencetak stack trace
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_buttonPDFActionPerformed
+    
+    public void update(Registrasi registrasi) {
+        ubahProfileModelTable.update(registrasi);
+        textfieldNama.setText("");
+        textfieldAlamat.setText("");
+        textfieldTglLahir.setText("");
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UbahProfileFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UbahProfileFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UbahProfileFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UbahProfileFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UbahProfileFrame().setVisible(true);
@@ -274,7 +517,12 @@ public class UbahProfileFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buttonHapus;
+    private javax.swing.JButton buttonPDF;
+    private javax.swing.JButton buttonPreview;
+    private javax.swing.JButton buttonPrint;
+    private javax.swing.JButton buttonSimpanUbah;
+    private javax.swing.JButton buttonUbah;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -290,9 +538,9 @@ public class UbahProfileFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTable profileTable;
+    private javax.swing.JTable tbUbahProfile;
+    private javax.swing.JTextArea textfieldAlamat;
+    private javax.swing.JTextArea textfieldNama;
+    private javax.swing.JTextArea textfieldTglLahir;
     // End of variables declaration//GEN-END:variables
 }
