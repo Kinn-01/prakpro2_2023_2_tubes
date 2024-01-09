@@ -5,11 +5,16 @@
 package id.ac.unpas.ecycle.ubahPassword;
 
 import id.ac.unpas.ecycle.dao.RegistrasiDao;
+import id.ac.unpas.ecycle.db.MySqlConnection;
 import id.ac.unpas.ecycle.login.LoginFrame;
 import id.ac.unpas.ecycle.main.MainFrame;
 import id.ac.unpas.ecycle.registrasi.RegisterFrame;
 import id.ac.unpas.ecycle.registrasi.Registrasi;
 import id.ac.unpas.ecycle.ubahProfil.UbahProfileFrame;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -23,11 +28,21 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
     private MainFrame mainFrame;
     private UbahProfileFrame ubahProfileFrame;
     private UbahPasswordFrame ubahPasswordFrame;
+    public String email;
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+    Object set;
+
     /**
      * Creates new form ubahPasswordFrame
      */
     public UbahPasswordFrame() {
         initComponents();
+    }
+
+    public void setUserEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -43,10 +58,10 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        newPassword = new javax.swing.JTextField();
+        confirmpass = new javax.swing.JTextField();
         buttonUbahPassword = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        nameTextfield = new javax.swing.JTextField();
+        newpass = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -80,7 +95,7 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("New Password : ");
+        jLabel3.setText("Confirm :");
 
         buttonUbahPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         buttonUbahPassword.setText("Submit");
@@ -93,7 +108,7 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel4.setText("Nama :");
+        jLabel4.setText("New Password :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,9 +124,9 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
                         .addGap(244, 244, 244)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
-                            .addComponent(newPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameTextfield)))
+                            .addComponent(confirmpass, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                            .addComponent(newpass)
+                            .addComponent(jLabel4)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(353, 353, 353)
                         .addComponent(buttonUbahPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -126,11 +141,11 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newpass, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(newPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(confirmpass, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonUbahPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 108, Short.MAX_VALUE))
@@ -140,23 +155,32 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonUbahPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUbahPasswordActionPerformed
-        RegistrasiDao registrasiDao = new RegistrasiDao();
-        loginFrame = new LoginFrame();
-        mainFrame = new MainFrame();
-        
-        String password = this.newPassword.getText();
-        
-        Registrasi registrasi = new Registrasi();
-               
-        
-        registrasi.setPassword(password);
-        
-        registrasiDao.update(registrasi);
-        
-        
-        
-        loginFrame.setVisible(true);
-        this.dispose();
+        try {  
+    String newPassword = new String(newpass.getText());
+            String confirmPassword = new String(confirmpass.getText());
+
+            // Periksa apakah password baru dan konfirmasi password sama
+            if (newPassword.equals(confirmPassword)) {
+                String selectSql = "UPDATE masyarakat SET password = ? WHERE email = ?";
+                conn = MySqlConnection.getMySqlConnection(); 
+                PreparedStatement updatePassword = conn.prepareStatement(selectSql);
+                updatePassword.setString(1, newPassword);
+                updatePassword.setString(2, this.email);
+                updatePassword.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Berhasil memperbaharui password, silahkan login kembali");
+                this.setVisible(false);
+                //> ganti jadi tampilan konfirmasi otp
+                LoginFrame start = new LoginFrame();
+                start.setVisible(true);
+                this.dispose();
+            } else {
+                // Jika password baru dan konfirmasi password tidak sama, berikan pesan kesalahan
+                JOptionPane.showMessageDialog(null, "Password baru dan konfirmasi password tidak sama.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_buttonUbahPasswordActionPerformed
 
     /**
@@ -186,6 +210,8 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -197,12 +223,13 @@ public class UbahPasswordFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonUbahPassword;
+    private javax.swing.JTextField confirmpass;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField nameTextfield;
-    private javax.swing.JTextField newPassword;
+    private javax.swing.JTextField newpass;
     // End of variables declaration//GEN-END:variables
+
 }

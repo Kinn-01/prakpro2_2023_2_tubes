@@ -15,6 +15,24 @@ import java.sql.SQLException;
  * @author Gilman Arief
  */
 public class MySqlConnection {
+    private static Connection MySqlConnection;
+    public static Connection getMySqlConnection() {
+        if(MySqlConnection==null) {
+            try{
+                String url = new String();
+                String user = new String();
+                String password = new String();
+                url = "jdbc:mysql://localhost/ecycle";
+                user = "root";
+                password = "";
+                DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+                MySqlConnection = (Connection) DriverManager.getConnection(url,user,password);       
+            }catch(SQLException e) {
+                System.out.println("Koneksi Error:");
+            }
+        }
+        return MySqlConnection;
+    }
     // Informasi koneksi database (URL, username, dan password)
     private final String DB_URL = "jdbc:mysql://localhost/ecycle";
     private final String DB_USER = "root";
