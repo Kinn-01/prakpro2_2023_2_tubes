@@ -52,13 +52,11 @@ public class MainFrame extends javax.swing.JFrame {
         label1 = new java.awt.Label();
         textArea1 = new java.awt.TextArea();
         jLabel1 = new javax.swing.JLabel();
-        buttonAbout = new javax.swing.JButton();
-        buttonProfile = new javax.swing.JButton();
         buttonLogin = new javax.swing.JButton();
         buttonJenisKategori = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(727, 800));
+        setPreferredSize(new java.awt.Dimension(800, 800));
 
         panel1.setBackground(new java.awt.Color(51, 51, 255));
 
@@ -76,24 +74,17 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Ecycle");
 
-        buttonAbout.setText("About");
-        buttonAbout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonAboutActionPerformed(evt);
-            }
-        });
-
-        buttonProfile.setText("Contact");
-        buttonProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonProfileActionPerformed(evt);
-            }
-        });
-
         buttonLogin.setText("Login");
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonLoginActionPerformed(evt);
+            }
+        });
+
+        buttonJenisKategori.setText("Kategori");
+        buttonJenisKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonJenisKategoriActionPerformed(evt);
             }
         });
 
@@ -104,13 +95,11 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(174, 174, 174)
+                .addGap(220, 220, 220)
                 .addComponent(buttonHome)
                 .addGap(18, 18, 18)
-                .addComponent(buttonAbout)
-                .addGap(18, 18, 18)
-                .addComponent(buttonProfile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                .addComponent(buttonJenisKategori)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
                 .addComponent(buttonLogin)
                 .addGap(42, 42, 42))
         );
@@ -121,37 +110,22 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonHome)
                     .addComponent(jLabel1)
-                    .addComponent(buttonAbout)
-                    .addComponent(buttonProfile)
-                    .addComponent(buttonLogin))
+                    .addComponent(buttonLogin)
+                    .addComponent(buttonJenisKategori))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
-
-        buttonJenisKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        buttonJenisKategori.setText("Kategori");
-        buttonJenisKategori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonJenisKategoriActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonJenisKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(290, 290, 290))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(143, 143, 143)
-                .addComponent(buttonJenisKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addContainerGap(617, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,14 +147,6 @@ public class MainFrame extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_buttonLoginActionPerformed
-
-    private void buttonProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProfileActionPerformed
-        
-    }//GEN-LAST:event_buttonProfileActionPerformed
-
-    private void buttonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAboutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonAboutActionPerformed
 
     private void buttonJenisKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonJenisKategoriActionPerformed
         JenisKategoriFrame = new jenisKategoriFrame();
@@ -225,11 +191,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonAbout;
     private javax.swing.JButton buttonHome;
     private javax.swing.JButton buttonJenisKategori;
     private javax.swing.JButton buttonLogin;
-    private javax.swing.JButton buttonProfile;
     private javax.swing.JLabel jLabel1;
     private java.awt.Label label1;
     private java.awt.Panel panel1;
