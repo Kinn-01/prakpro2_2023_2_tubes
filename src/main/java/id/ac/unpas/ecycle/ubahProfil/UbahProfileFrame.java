@@ -74,7 +74,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         textfieldTglLahir = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        buttonHome = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -153,10 +153,10 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Ecycle");
 
-        jButton2.setText("Home");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonHome.setText("Home");
+        buttonHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonHomeActionPerformed(evt);
             }
         });
 
@@ -172,7 +172,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addComponent(jLabel5)
                 .addGap(155, 155, 155)
-                .addComponent(jButton2)
+                .addComponent(buttonHome)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
@@ -185,7 +185,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jButton2)
+                    .addComponent(buttonHome)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
                 .addGap(16, 16, 16))
@@ -325,32 +325,45 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void buttonHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHomeActionPerformed
+        mainFrame = new MainFrame();
+        mainFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonHomeActionPerformed
 
     private void buttonHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHapusActionPerformed
-        RegistrasiDao registrasiDao = new RegistrasiDao();
-        
-        ubahProfileFrame = new UbahProfileFrame();
-        
-        
-//        String nama = this.loginNameTextfield.getText();
-//        String password = this.loginPassTextfield.getText();
-// 
-        Registrasi registrasi = new Registrasi();
-//               
-//        registrasi.setNama(nama);
-//        registrasi.setPassword(password);
-        
-        registrasiDao.delete(registrasi);
-        
-//        if(registrasiDao.show(registrasi) == true) {
-//           ubahProfileFrame.setVisible(true);
-//           this.dispose();
-//        } else {
-//            
-//        }
+        // TODO add your handling code here:
+        int row = this.tbUbahProfile.getSelectedRow();
+        int column = this.tbUbahProfile.getSelectedColumn();
+
+        if (row == -1 || column == -1) {
+            return;
+        } else {
+            String newValue = (String) this.tbUbahProfile.getModel().getValueAt(row, column);
+
+            Registrasi id = new Registrasi();
+
+            String col = "";
+
+            switch (column) {
+                case 0:
+                    col = "nama";
+                    break;
+                case 1:
+                    col = "alamat";
+                    break;
+                case 2:
+                    col = "tanggal_lahir";
+                    break;
+                default:
+                    System.out.println("Kolom tidak ditemukan");
+                    break;
+            }
+            id = this.registrasiDao.select(col, newValue);
+
+            this.delete(id);
+            this.registrasiDao.delete(id);
+        }
     }//GEN-LAST:event_buttonHapusActionPerformed
 
     private void buttonUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUbahActionPerformed
@@ -389,7 +402,8 @@ public class UbahProfileFrame extends javax.swing.JFrame {
 
         
 
-        Registrasi registrasiUbah = new Registrasi();
+        registrasiUbah = new Registrasi(); // Jangan mengubah registrasiUbah menjadi null sebelum menggunakannya
+
         registrasiUbah.setId(id);
     }//GEN-LAST:event_buttonUbahActionPerformed
 
@@ -401,18 +415,29 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         String nama = this.textfieldNama.getText();
         String alamat = this.textfieldAlamat.getText();
         String tanggal_lahir = this.textfieldTglLahir.getText();
-        
-         this.registrasiUbah = new Registrasi();
+//        String nama = this.textfieldNamaPelanggan.getText();
+//        String alamat = this.textfieldAlamatPelanggan.getText();
+          Registrasi registrasiUbah = new Registrasi(); // Inisialisasi objek sebelum menggunakannya
 
-        Registrasi registrasi = new Registrasi();
-        registrasi.setId(registrasiUbah.getId());
-        registrasi.setNama(nama);
-        registrasi.setAlamat(alamat);
-        registrasi.setTanggal_lahir(tanggal_lahir);
-        
+//        Registrasi registrasi = new Registrasi();
+//        registrasi.setId(registrasiUbah.getId());
+//        registrasi.setNama(nama);
+//        registrasi.setAlamat(alamat);
+//        registrasi.setTanggal_lahir(tanggal_lahir);
+//
+//        this.registrasiDao.update(registrasi);
+//        this.update(registrasi);
 
-        this.registrasiDao.update(registrasi);
-        this.update(registrasi);
+         
+         Registrasi registrasi = new Registrasi();
+         registrasi.setId(this.registrasiUbah.getId());
+         registrasi.setNama(nama);
+         registrasi.setAlamat(alamat);
+         registrasi.setTanggal_lahir(tanggal_lahir);
+
+         this.registrasiDao.update(registrasi);
+         this.update(registrasi);
+
     }//GEN-LAST:event_buttonSimpanUbahActionPerformed
 
     private void buttonPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPrintActionPerformed
@@ -499,6 +524,11 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonPDFActionPerformed
     
+    public void delete(Registrasi registrasi) {
+        // Tambahkan permintaan ke tableModel
+        ubahProfileModelTable.delete(registrasi);
+    }
+    
     public void update(Registrasi registrasi) {
         ubahProfileModelTable.update(registrasi);
         textfieldNama.setText("");
@@ -518,12 +548,12 @@ public class UbahProfileFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonHapus;
+    private javax.swing.JButton buttonHome;
     private javax.swing.JButton buttonPDF;
     private javax.swing.JButton buttonPreview;
     private javax.swing.JButton buttonPrint;
     private javax.swing.JButton buttonSimpanUbah;
     private javax.swing.JButton buttonUbah;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
@@ -543,4 +573,6 @@ public class UbahProfileFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea textfieldNama;
     private javax.swing.JTextArea textfieldTglLahir;
     // End of variables declaration//GEN-END:variables
+
+    
 }

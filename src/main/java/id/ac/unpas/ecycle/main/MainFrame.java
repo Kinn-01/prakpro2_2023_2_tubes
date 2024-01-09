@@ -3,7 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package id.ac.unpas.ecycle.main;
+import id.ac.unpas.ecycle.dao.RegistrasiDao;
 import id.ac.unpas.ecycle.login.LoginFrame;
+import id.ac.unpas.ecycle.registrasi.Registrasi;
+import id.ac.unpas.ecycle.ubahProfil.UbahProfileFrame;
+import id.ac.unpas.ecycle.detail.jenisKategoriFrame;
 import javax.swing.*;
 /**
  *
@@ -13,12 +17,26 @@ public class MainFrame extends javax.swing.JFrame {
 
     private LoginFrame loginFrame;
     private MainFrame mainFrame;
+    private UbahProfileFrame ubahProfileFrame;
+    private jenisKategoriFrame JenisKategoriFrame;
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
     }
+    
+    public void showAlertFailed(String message) {
+        // Tampilkan message dialog pada komponen dari parameter 1 dan pesan pada parameter 2 dengan title pada parameter 3 dan jenis pesan pada parameter 4
+        JOptionPane.showMessageDialog(MainFrame.this, "Silahkan Login, " + message, "Perhatian",
+                JOptionPane.ERROR_MESSAGE);
+    }
+    
+//    public void showAlertSuccess(String message) {
+//        // Tampilkan message dialog pada komponen dari parameter 1 dan pesan pada parameter 2 dengan title pada parameter 3 dan jenis pesan pada parameter 4
+//        JOptionPane.showMessageDialog(MainFrame.this, "Hallo " + message, "Perhatian",
+//                JOptionPane.INFORMATION_MESSAGE);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,12 +53,12 @@ public class MainFrame extends javax.swing.JFrame {
         textArea1 = new java.awt.TextArea();
         jLabel1 = new javax.swing.JLabel();
         buttonAbout = new javax.swing.JButton();
-        buttonKontak = new javax.swing.JButton();
+        buttonProfile = new javax.swing.JButton();
         buttonLogin = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        buttonJenisKategori = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(727, 400));
+        setPreferredSize(new java.awt.Dimension(727, 800));
 
         panel1.setBackground(new java.awt.Color(51, 51, 255));
 
@@ -65,10 +83,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        buttonKontak.setText("Contact");
-        buttonKontak.addActionListener(new java.awt.event.ActionListener() {
+        buttonProfile.setText("Contact");
+        buttonProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonKontakActionPerformed(evt);
+                buttonProfileActionPerformed(evt);
             }
         });
 
@@ -91,8 +109,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(buttonAbout)
                 .addGap(18, 18, 18)
-                .addComponent(buttonKontak)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addComponent(buttonProfile)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                 .addComponent(buttonLogin)
                 .addGap(42, 42, 42))
         );
@@ -104,40 +122,36 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(buttonHome)
                     .addComponent(jLabel1)
                     .addComponent(buttonAbout)
-                    .addComponent(buttonKontak)
+                    .addComponent(buttonProfile)
                     .addComponent(buttonLogin))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(0, 400));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
-        );
+        buttonJenisKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonJenisKategori.setText("Kategori");
+        buttonJenisKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonJenisKategoriActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)
-                .addContainerGap())
             .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonJenisKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(290, 290, 290))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE))
+                .addGap(143, 143, 143)
+                .addComponent(buttonJenisKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(343, Short.MAX_VALUE))
         );
 
         pack();
@@ -160,13 +174,20 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_buttonLoginActionPerformed
 
-    private void buttonKontakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonKontakActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonKontakActionPerformed
+    private void buttonProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProfileActionPerformed
+        
+    }//GEN-LAST:event_buttonProfileActionPerformed
 
     private void buttonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAboutActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonAboutActionPerformed
+
+    private void buttonJenisKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonJenisKategoriActionPerformed
+        JenisKategoriFrame = new jenisKategoriFrame();
+        
+        JenisKategoriFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonJenisKategoriActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,10 +227,10 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAbout;
     private javax.swing.JButton buttonHome;
-    private javax.swing.JButton buttonKontak;
+    private javax.swing.JButton buttonJenisKategori;
     private javax.swing.JButton buttonLogin;
+    private javax.swing.JButton buttonProfile;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private java.awt.Label label1;
     private java.awt.Panel panel1;
     private java.awt.TextArea textArea1;
