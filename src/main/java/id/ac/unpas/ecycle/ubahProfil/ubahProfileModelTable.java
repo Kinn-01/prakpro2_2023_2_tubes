@@ -89,7 +89,7 @@ public class ubahProfileModelTable extends AbstractTableModel
         // Looping untuk mencari index dari data yang ingin diubah
         for (Registrasi b : data) {
             // Jika id dari data sama dengan id dari value
-            if (b.getId() == value.getId()) {
+            if (b.getNama() == value.getNama()) {
                 // Biodata tersebut menjadi value
                 b = value;
                 // Set List data ke-i dengan value
@@ -101,5 +101,27 @@ public class ubahProfileModelTable extends AbstractTableModel
             // Increment i
             i++;
         }
+    }
+    
+    public void delete(Registrasi value) {
+        // Membuat variable i untuk menyimpan index dari data
+        int i = 0;
+
+        // Looping untuk mencari index dari data yang ingin dihapus
+        for (Registrasi b : data) {
+            // Jika id dari data sama dengan id dari value
+            if (b.getId() == value.getId()) {
+                // Hapus data dari List data
+                data.remove(i);
+                // Hentikan looping
+                break;
+            }
+            // Increment i
+            i++;
+        }
+        
+        // Menghapus nilai di table
+        fireTableRowsDeleted(data.size() - 1,
+                data.size() - 1);
     }
 }

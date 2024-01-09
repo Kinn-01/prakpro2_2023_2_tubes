@@ -55,10 +55,13 @@ public class RegistrasiDao {
             PreparedStatement statement = connection.prepareStatement(
                     "update masyarakat set nama = ?, alamat = ?, tanggal_lahir = ? where id = ?");
 
+            
             statement.setString(1, registrasi.getNama());
             statement.setString(2, registrasi.getAlamat());
             statement.setString(3, registrasi.getTanggal_lahir());
-            statement.setInt(4, registrasi.getId());
+            statement.setInt(4,  registrasi.getId());
+            
+            
 
             result = statement.executeUpdate();
 
@@ -106,7 +109,7 @@ public class RegistrasiDao {
         try (Connection connection = MySqlConnection.getInstance().getConnection()) {
             // Membuat PreparedStatement untuk mengubah data di database
             PreparedStatement statement = connection.prepareStatement(
-                    "update masyarakat set password = ? where nama = ?");
+                    "update masyarakat set password = ? where id = ?");
 
             // Set nilai dari parameter yang ada di query
             statement.setString(1, registrasi.getPassword());
