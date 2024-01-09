@@ -11,6 +11,9 @@ import id.ac.unpas.ecycle.main.MainFrame;
 import id.ac.unpas.ecycle.registrasi.Registrasi;
 import id.ac.unpas.ecycle.ubahProfil.ubahProfileModelTable;
 import java.io.File;
+import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.util.*;
 
 
 import java.util.*;
@@ -48,6 +51,12 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         initComponents();
     }
     
+    public void showAlertSuccess(String message) {
+        // Tampilkan message dialog pada komponen dari parameter 1 dan pesan pada parameter 2 dengan title pada parameter 3 dan jenis pesan pada parameter 4
+        JOptionPane.showMessageDialog(UbahProfileFrame.this, "Data Berhasil " + message, "Perhatian",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     
 
         
@@ -75,8 +84,6 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         buttonHome = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         buttonHapus = new javax.swing.JButton();
         buttonUbah = new javax.swing.JButton();
@@ -86,6 +93,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
         buttonPrint = new javax.swing.JButton();
         buttonPreview = new javax.swing.JButton();
         buttonPDF = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -160,10 +168,6 @@ public class UbahProfileFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("About");
-
-        jButton4.setText("Contact");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -171,13 +175,9 @@ public class UbahProfileFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel5)
-                .addGap(155, 155, 155)
+                .addGap(283, 283, 283)
                 .addComponent(buttonHome)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,9 +185,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(buttonHome)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(buttonHome))
                 .addGap(16, 16, 16))
         );
 
@@ -260,42 +258,48 @@ public class UbahProfileFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(0, 51, 255));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Refresh");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(56, 56, 56)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(140, 140, 140)
-                                .addComponent(buttonHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonSimpanUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonPreview)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonPDF)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(buttonHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonSimpanUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonPreview)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonPDF)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
+                .addContainerGap(43, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(304, 304, 304)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +321,8 @@ public class UbahProfileFrame extends javax.swing.JFrame {
                     .addComponent(buttonSimpanUbah)
                     .addComponent(buttonPrint)
                     .addComponent(buttonPreview)
-                    .addComponent(buttonPDF))
+                    .addComponent(buttonPDF)
+                    .addComponent(jButton1))
                 .addGap(51, 51, 51)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -361,6 +366,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
             }
             id = this.registrasiDao.select(col, newValue);
 
+            this.ubahProfileFrame.showAlertSuccess("dihapus");
             this.delete(id);
             this.registrasiDao.delete(id);
         }
@@ -418,7 +424,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
 //        String nama = this.textfieldNamaPelanggan.getText();
 //        String alamat = this.textfieldAlamatPelanggan.getText();
           Registrasi registrasiUbah = new Registrasi(); // Inisialisasi objek sebelum menggunakannya
-
+          ubahProfileFrame = new UbahProfileFrame();
 //        Registrasi registrasi = new Registrasi();
 //        registrasi.setId(registrasiUbah.getId());
 //        registrasi.setNama(nama);
@@ -434,9 +440,13 @@ public class UbahProfileFrame extends javax.swing.JFrame {
          registrasi.setNama(nama);
          registrasi.setAlamat(alamat);
          registrasi.setTanggal_lahir(tanggal_lahir);
+         
+        
 
+         this.ubahProfileFrame.showAlertSuccess("diubah");
          this.registrasiDao.update(registrasi);
          this.update(registrasi);
+         
 
     }//GEN-LAST:event_buttonSimpanUbahActionPerformed
 
@@ -523,6 +533,12 @@ public class UbahProfileFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_buttonPDFActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ubahProfileFrame = new UbahProfileFrame();
+        ubahProfileFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     public void delete(Registrasi registrasi) {
         // Tambahkan permintaan ke tableModel
@@ -554,8 +570,7 @@ public class UbahProfileFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonPrint;
     private javax.swing.JButton buttonSimpanUbah;
     private javax.swing.JButton buttonUbah;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
